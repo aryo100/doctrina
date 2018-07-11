@@ -21,20 +21,11 @@ class Penerima extends CI_Controller
   }
 
   function view_dona(){
-    $data['title'] = "Data Donatur";
-    $data['sql1']=$this->doc->get('donatur','');
+    $data['title'] = "Waiting List Donatur";
+    $data['sql1']=$this->doc->get_beasiswa($this->session->userdata('id'),'penerima','d');
     $this->load->view('layout/header');
     $this->load->view('layout/sidebar',$data);
-    $this->load->view('pages/admin_view_data_dona',$data);
-    $this->load->view('layout/footer');
-  }
-
-  function view_pene(){
-    $data['title'] = "Data Penerima";
-    $data['sql1']=$this->doc->get('penerima','');
-    $this->load->view('layout/header');
-    $this->load->view('layout/sidebar',$data);
-    $this->load->view('pages/admin_view_data_pene',$data);
+    $this->load->view('pages/admin_view_data_beasiswa',$data);
     $this->load->view('layout/footer');
   }
 
@@ -109,8 +100,8 @@ class Penerima extends CI_Controller
     }
     $password = $this->input->post('password');
     $this->load->helper('string');
-    // $myfile = fopen("pass.txt", "a") or die("Unable to open file!");
-    // $password = random_string('alnum',7);
+      // $myfile = fopen("pass.txt", "a") or die("Unable to open file!");
+      // $password = random_string('alnum',7);
     // $subject = 'nyoba';
     // $message = '<p>Selamat Mail nya Berhasil Yey :)</p>';
     // $body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -215,11 +206,27 @@ class Penerima extends CI_Controller
 		redirect('admin/view_kelas');
 	}
 
-  public function simpan_kelas(){
-    $kelas = $this->input->post('kelas');
-    $data['nama_kelas'] = $kelas;
-    $this->sik->simpan_kelas($data);
-    redirect('admin/view_kelas');
+  public function buat_beasiswa(){
+    $id_penerima = $this->uri->segment(4);
+    $id_donatur = $this->uri->segment(3);
+    $data = array(
+      'id_penerima' => $id_penerima,
+      'id_donatur' => $id_donatur,
+      'status' => 'menunggu'
+      );
+    
+    $query = $this->doc->get('beasiswa', '');
+    if(count($query) >= 2) {
+      echo "<script type='text/javascript'>alert ('Maaf Username Dan Password Anda Salah !');
+				document.location='<?php echo base_url(); ?>/index.php/list_dona';
+        </script>";
+    }
+
+    else {
+      $this->doc->simpan($data,'beasiswa');
+      redirect('penerima/view_dona');
+    }
+    // redirect('penerima/data_lengkap_dona/'.$id_donatur.'/donatur');
   }
 
   public function view_chat(){
@@ -231,10 +238,14 @@ class Penerima extends CI_Controller
     $this->load->view('layout/footer');
   }
 
-  public function hapus_mapel($id){
-		$this->sik->hapus_mapel($id);
-		redirect('admin/view_mapel');
-	}
+  public function des_simpan(){
+    $id = $this->input->post('id');
+    $deskripsi = $this->input->post('deskripsi');
+    $data['deskripsi'] = $deskripsi;
+    $data['id'] = $id;
+    $this->doc->update($id,$data,'penerima');
+    redirect('penerima/data_lengkap_pene/'.$id.'/penerima');
+  }
 
   public function simpan_chat(){
     $id_penerima = $this->uri->segment(3);
@@ -262,7 +273,7 @@ class Penerima extends CI_Controller
     $this->load->view('layout/footer');
   }
 
-  public function data_lengkap_dona()
+  public function data_lengkap()
   {
     $data['title'] = "Profil Donatur";
     $data['sql']=$this->doc->detail($this->uri->segment(3),'donatur');

@@ -1,3 +1,6 @@
+<?php 
+	$rating = 0; 
+?>
 <!-- BEGIN CONTENT -->
 <div class="page-content-wrapper">
 	<!-- BEGIN CONTENT BODY -->
@@ -39,7 +42,7 @@
 						<div class="profile-usertitle">
 							<div class="profile-usertitle-name"> <?php echo $sql['nama'];?> </div>
 							<!-- <div class="profile-usertitle-job"> Developer </div> -->
-							<?php if($this->session->userdata('role')=='donatur'){?>
+							<?php if($this->session->userdata('role')!=$this->uri->segment(4) && $this->session->userdata('role')!='donatur' && $this->uri->segment(4)!='penerima'){?>
 							<div class="star-rating">
 								<input type="radio" name="example" class="rating" value="1" <?php if($sql['rating'] == 1){ echo 'checked'; } ?>/>
 								<input type="radio" name="example" class="rating" value="2"	<?php if($sql['rating'] == 2){ echo 'checked'; } ?> />
@@ -52,8 +55,12 @@
 						<!-- END SIDEBAR USER TITLE -->
 						<!-- SIDEBAR BUTTONS -->
 						<div class="profile-userbuttons">
-						<a href="<?php echo base_url(); ?>index.php/penerima/view_chat/<?php echo $sql['id'].'/'.$sql['nama']; ?>"><button type="button" class="btn btn-circle green btn-sm">Get</button></a>
-							<a href="<?php echo base_url(); ?>index.php/penerima/view_chat/<?php echo $sql['id'].'/'.$sql['nama']; ?>"><button type="button" class="btn btn-circle red btn-sm">Message</button></a>
+						<?php if($this->session->userdata('role')!=$this->uri->segment(4) && $this->uri->segment(4)!= 'penerima'){ ?>
+							<a href="<?php echo base_url(); ?>index.php/<?php echo $this->session->userdata('role');?>/buat_beasiswa/<?php echo $sql['id'].'/'.$this->session->userdata('id'); ?>"><button type="button" class="btn btn-circle green btn-sm">Get</button></a>
+						<?php } ?>
+						<?php if($this->session->userdata('role')!=$this->uri->segment(4)){ ?>
+						<a href="<?php echo base_url(); ?>index.php/<?php echo $this->session->userdata('role');?>/view_chat/<?php echo $sql['id'].'/'.$sql['nama']; ?>"><button type="button" class="btn btn-circle red btn-sm">Message</button></a>
+						<?php } ?>	
 						</div>
 						<!-- END SIDEBAR BUTTONS -->
 					</div>
@@ -100,152 +107,105 @@
 										<li class="active">
 											<a href="#tab_1_1" data-toggle="tab">Deskripsi</a>
 										</li>
+										<?php if($this->uri->segment(4)== 'donatur' && $this->session->userdata('role')=='admin'){ ?>
 										<li>
-											<a href="#tab_1_2" data-toggle="tab">Syarat & Ketentuan</a>
+											<a href="#tab_1_2" data-toggle="tab">Bukti Slip Gaji</a>
 										</li>
 										<li>
-											<a href="#tab_1_3" data-toggle="tab">FaQ</a>
+											<a href="#tab_1_3" data-toggle="tab">Surat Keterangan Aktif Kerja</a>
 										</li>
+										<?php } else if($this->uri->segment(4)== 'penerima'){ ?>
+											<li>
+												<a href="#tab_1_4" data-toggle="tab">SKTM</a>
+											</li>
+										<?php } ?>
+										<?php if($this->uri->segment(4)== 'donatur'){ ?>
+										<li>
+											<a href="#tab_1_5" data-toggle="tab">Syarat</a>
+										</li>
+										<?php } ?>
 									</ul>
 								</div>
-								<div class="portlet-body">
+								<div style="height: 410px;" class="portlet-body">
 									<div class="tab-content">
 										<!-- GENERAL QUESTION TAB -->
 										<div class="tab-pane active" id="tab_1_1">
-											<div class="panel-body">
-												<p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+											<div style="overflow-y: hidden; height: 390px;" class="panel-body">
+												<?php if($this->session->userdata('role')==$this->uri->segment(4)){?>
+												<div id="edit" style="float:right;" >
+													<a><i class="fa fa-pencil"></i>[Edit]</a>
+												</div>
+												
+												<form id="edit-text" action="<?php echo base_url(); ?>index.php/<?php echo $this->session->userdata('role');?>/des_simpan" method="post">
+													<input type="hidden" name="id" value="<?php echo $sql['id'];?>">
+													<textarea id="summernote" name="deskripsi"><?php echo $sql['deskripsi'];?></textarea>
+													<button type="submit" class="btn blue editable-submit"><i class="fa fa-check"></i></button>
+													<button id="show" type="button" class="btn default editable-cancel"><i class="fa fa-times"></i></button>
+												</form>
+												<?php }?>
+												<!-- <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
 													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
 												<p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
 													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
 												<p> Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
 													craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-													nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p>
+													nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p> -->
+												<div id="isi">
+													<?php echo $sql['deskripsi'];?>
+												</div>
 											</div>
 										</div>
+										
+										<?php if($this->uri->segment(4)== 'donatur' && $this->session->userdata('role')=='admin'){ ?>
 										<!-- END GENERAL QUESTION TAB -->
 										<!-- MEMBERSHIP TAB -->
 										<div class="tab-pane" id="tab_1_2">
 											<div class="panel-body">
-												<h4 class="panel-title">
-															Syarat dan ketentuan program thejack
-												</h4>
-												<ul>
-													<li> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-														nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
-													</li>
-													<li> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-														nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
-													</li>
-													<li> Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-														craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-														nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p>
-													</li>
-												</ul>
+												<img src="<?php echo base_url();?>/assets/upload/ss/<?php echo $sql['ss_gaji'];?>" class="img-responsive" alt=""> 
 											</div>
 										</div>
 										<!-- END MEMBERSHIP TAB -->
 										<!-- TERMS OF USE TAB -->
 										<div class="tab-pane" id="tab_1_3">
-											<div id="accordion3" class="panel-group">
-												<div class="panel panel-danger">
-													<div class="panel-heading">
-														<h4 class="panel-title">
-															<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_1"> 1. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
-														</h4>
-													</div>
-													<div id="accordion3_1" class="panel-collapse collapse in">
-														<div class="panel-body">
-															<p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-																nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
-															<p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-																nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
-															<p> Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-																craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-																nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p>
-														</div>
-													</div>
+											<div class="panel-body">
+												<img src="<?php echo base_url();?>/assets/upload/ss/<?php echo $sql['ss_aktif'];?>" class="img-responsive" alt=""> 
+											</div>
+										</div>
+										<?php } else if($this->uri->segment(4)== 'penerima'){ ?>
+										<div class="tab-pane" id="tab_1_4">
+											<div class="panel-body">
+												<img src="<?php echo base_url();?>/assets/upload/ss/<?php echo $sql['ss_sktm'];?>" class="img-responsive" alt=""> 
+											</div>
+										</div>
+										<?php } ?>
+										<?php if($this->uri->segment(4)== 'donatur'){ ?>
+										<div class="tab-pane" id="tab_1_5">
+											<div style="overflow-y: hidden; height: 390px;" class="panel-body">
+												<?php if($this->session->userdata('role')==$this->uri->segment(4)){?>
+												<div id="edit-sya" style="float:right;" >
+													<a><i class="fa fa-pencil"></i>[Edit]</a>
 												</div>
-												<div class="panel panel-success">
-													<div class="panel-heading">
-														<h4 class="panel-title">
-															<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_2"> 2. Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry ? </a>
-														</h4>
-													</div>
-													<div id="accordion3_2" class="panel-collapse collapse">
-														<div class="panel-body"> Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-															enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-															moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-															ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-															sustainable VHS. </div>
-													</div>
-												</div>
-												<div class="panel panel-default">
-													<div class="panel-heading">
-														<h4 class="panel-title">
-															<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_3"> 3. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor ? </a>
-														</h4>
-													</div>
-													<div id="accordion3_3" class="panel-collapse collapse">
-														<div class="panel-body"> Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Anim pariatur cliche reprehenderit,
-															enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-															moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-															ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore
-															sustainable VHS. </div>
-													</div>
-												</div>
-												<div class="panel panel-default">
-													<div class="panel-heading">
-														<h4 class="panel-title">
-															<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_4"> 4. Wolf moon officia aute, non cupidatat skateboard dolor brunch ? </a>
-														</h4>
-													</div>
-													<div id="accordion3_4" class="panel-collapse collapse">
-														<div class="panel-body"> 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-															coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-															occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </div>
-													</div>
-												</div>
-												<div class="panel panel-default">
-													<div class="panel-heading">
-														<h4 class="panel-title">
-															<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_5"> 5. Leggings occaecat craft beer farm-to-table, raw denim aesthetic ? </a>
-														</h4>
-													</div>
-													<div id="accordion3_5" class="panel-collapse collapse">
-														<div class="panel-body"> 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-															coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-															occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-															Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et </div>
-													</div>
-												</div>
-												<div class="panel panel-default">
-													<div class="panel-heading">
-														<h4 class="panel-title">
-															<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_6"> 6. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth ? </a>
-														</h4>
-													</div>
-													<div id="accordion3_6" class="panel-collapse collapse">
-														<div class="panel-body"> 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-															coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-															occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-															Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et </div>
-													</div>
-												</div>
-												<div class="panel panel-default">
-													<div class="panel-heading">
-														<h4 class="panel-title">
-															<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#accordion3_7"> 7. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft ? </a>
-														</h4>
-													</div>
-													<div id="accordion3_7" class="panel-collapse collapse">
-														<div class="panel-body"> 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-															coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-															occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. Food truck quinoa nesciunt laborum eiusmod.
-															Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et </div>
-													</div>
+												
+												<form id="edit-text-sya" action="<?php echo base_url(); ?>index.php/<?php echo $this->session->userdata('role');?>/sya_simpan" method="post">
+													<input type="hidden" name="id" value="<?php echo $sql['id'];?>">
+													<textarea id="summernote-sya" name="syarat"><?php echo $sql['syarat'];?></textarea>
+													<button type="submit" class="btn blue editable-submit"><i class="fa fa-check"></i></button>
+													<button id="show-sya" type="button" class="btn default editable-cancel"><i class="fa fa-times"></i></button>
+												</form>
+												<?php }?>
+												<!-- <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
+												<p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </p>
+												<p> Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+													craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
+													nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p> -->
+												<div id="isi-sya">
+													<?php echo $sql['syarat'];?>
 												</div>
 											</div>
 										</div>
+										<?php } ?>
 										<!-- END TERMS OF USE TAB -->
 									</div>
 								</div>
@@ -324,9 +284,9 @@
 					filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
 					filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
 					li: '<li><a tabindex="0"><label></label></a></li>',
-			        divider: '<li class="multiselect-item divider"></li>',
 			        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
 				 }
+			        divider: '<li class="multiselect-item divider"></li>',
 				});
 			
 				
@@ -388,5 +348,34 @@
 <script type="text/javascript">
 	$(function(){
 		$('.star-rating').non_rating();
+		
+		$(document).ready(function() {
+			$('#summernote').summernote();
+			$('#summernote-sya').summernote();
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function(){
+		$("#edit-text").hide();
+		$("#edit").click(function(){
+			$("#isi").hide();
+			$("#edit-text").show();
+		});
+		$("#show").click(function(){
+			location.reload();
+		});
+		$("#edit-text-sya").hide();
+		$("#edit-sya").click(function(){
+			$("#isi-sya").hide();
+			$("#edit-text-sya").show();
+		});
+		$("#show").click(function(){
+			location.reload();
+		});
+		$("#show-sya").click(function(){
+			location.reload();
+		});
 	});
 </script>

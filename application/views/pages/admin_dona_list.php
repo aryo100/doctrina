@@ -41,7 +41,7 @@
 												<ul class="mt-info">
 													<li>
 														<li>
-														<a class="btn default btn-outline" href="<?php echo base_url();?>index.php/penerima/data_lengkap_dona/<?php echo $obj1->id;?>">
+														<a class="btn default btn-outline" href="<?php echo base_url();?>index.php/penerima/data_lengkap/<?php echo $obj1->id.'/donatur';?>">
 															<i class="icon-magnifier"></i>
 														</a>
 													</li>

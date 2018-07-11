@@ -53,7 +53,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN LOGO -->
         <div class="logo">
             <a href="index.html">
-                <img src="<?php echo base_url();?>/assets/pages/img/logo-big.png" alt="" /> </a>
+                <img src="<?php echo base_url();?>/assets/images/logo.png" alt="" /> </a>
         </div>
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->

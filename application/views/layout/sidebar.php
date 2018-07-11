@@ -43,7 +43,7 @@
 						if ($this->session->userdata('role') == 'donatur') { ?>
 							<ul class="page-sidebar-menu   " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                                 <li class="nav-item  <?php if($this->uri->segment(2) == 'data_lengkap_dona'){ echo 'active';} ?>">
-                                    <a href="<?php echo base_url(); ?>index.php/donatur/data_lengkap_dona" class="nav-link ">
+                                    <a href="<?php echo base_url(); ?>index.php/donatur/data_lengkap_dona//<?php echo $this->session->userdata('id').'/'.$this->session->userdata('role'); ?>" class="nav-link ">
                                         <i class="icon-user"></i>
                                         <span class="title">Profil</span>
                                     </a>
@@ -64,14 +64,12 @@
                                     </a>
                                 </li> -->
 							</ul>
-						<?php 
-						}
-                    ?>
+						<?php } ?>
                     <?php
 						if ($this->session->userdata('role') == 'penerima') { ?>
 							<ul class="page-sidebar-menu   " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                                 <li class="nav-item  <?php if($this->uri->segment(2) == 'data_lengkap_pene'){ echo 'active';} ?>">
-                                    <a href="<?php echo base_url(); ?>index.php/penerima/data_lengkap_pene" class="nav-link ">
+                                    <a href="<?php echo base_url(); ?>index.php/penerima/data_lengkap_pene/<?php echo $this->session->userdata('id').'/'.$this->session->userdata('role'); ?>" class="nav-link ">
                                         <i class="icon-user"></i>
                                         <span class="title">Profil</span>
                                     </a>
@@ -86,7 +84,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item  <?php if($this->uri->segment(2) == 'view_pene'){ echo 'active';} ?>">
-                                    <a href="<?php echo base_url(); ?>index.php/penerima/view_pene" class="nav-link ">
+                                    <a href="<?php echo base_url(); ?>index.php/penerima/view_dona" class="nav-link ">
                                         <i class="icon-users"></i>    
                                         <span class="title">Waiting List</span>
                                     </a>

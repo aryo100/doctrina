@@ -108,46 +108,253 @@ class Admin extends CI_Controller
     foreach ($get['akun'] as $obj1) {
       $username = $obj1->email;
     }
-    $password = $this->input->post('password');
+    // $password = $this->input->post('password');
+    $this->load->library('email');
+    //use for random string
     $this->load->helper('string');
-    // $myfile = fopen("pass.txt", "a") or die("Unable to open file!");
-    // $password = random_string('alnum',7);
-    // $subject = 'nyoba';
-    // $message = '<p>Selamat Mail nya Berhasil Yey :)</p>';
-    // $body = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    // <html xmlns="http://www.w3.org/1999/xhtml">
-    // <head>
-    //     <meta http-equiv="Content-Type" content="text/html; charset=' . strtolower(config_item('charset')) . '" />
-    //     <title>' . html_escape($subject) . '</title>
-    //     <style type="text/css">
-    //         body {
-    //             font-family: Arial, Verdana, Helvetica, sans-serif;
-    //             font-size: 16px;
-    //         }
-    //     </style>
-    // </head>
-    // <body>
-    // ' . $message . '
-    // </body>
-    // </html>';
-    // Also, for getting full html you may use the following internal method:
-    //$body = $this->email->full_html($subject, $message);
-
-    // $result = $this->email
-    //     ->from('aryo100@gmail.com')
-    //     ->reply_to('aryo100@gmail.com')    // Optional, an account where a human being reads.
-    //     ->to($username)
-    //     ->subject($subject)
-    //     ->message($body)
-    //     ->send();
-    // var_dump($result);
-    // echo '<br />';
-    // echo $this->email->print_debugger();
+    $password = random_string('alnum',7);
+    $myfile = fopen("pass.txt", "a") or die("Unable to open file!");
     $txt = $username."  ".$password."\r\n";
     fwrite($myfile, $txt);
     fclose($myfile);
-		$pt = $this->input->post('pt');
-		$data = array(
+    $subject = 'Konfirmasi Akun DOCTRINA';
+    // $message = '<p>Selamat Mail nya Berhasil Yey :) <br> Username : '.$username.'<br> Password : '.$password.'</p>';
+    $body = 
+    '<html>
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Konfirmasi Akun Doctrina</title>
+        <style type="text/css">
+        
+          @media (min-width: 500px) {
+            .avatar__media .media__fluid {
+              margin-top: 3px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .button,
+            .button__shadow {
+              font-size: 16px !important;
+              display: inline-block !important;
+              width: auto !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            footer li {
+              display: inline-block !important;
+              margin-right: 20px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mt1--lg {
+              margin-top: 10px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mt2--lg {
+              margin-top: 20px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mt3--lg {
+              margin-top: 30px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mt4--lg {
+              margin-top: 40px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mb1--lg {
+              margin-bottom: 10px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mb2--lg {
+              margin-bottom: 20px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mb3--lg {
+              margin-bottom: 30px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .mb4--lg {
+              margin-bottom: 40px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pt1--lg {
+              padding-top: 10px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pt2--lg {
+              padding-top: 20px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pt3--lg {
+              padding-top: 30px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pt4--lg {
+              padding-top: 40px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pb1--lg {
+              padding-bottom: 10px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pb2--lg {
+              padding-bottom: 20px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pb3--lg {
+              padding-bottom: 30px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .pb4--lg {
+              padding-bottom: 40px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            pre {
+              font-size: 14px !important;
+            }
+            .body {
+              font-size: 14px !important;
+              line-height: 24px !important;
+            }
+            h1 {
+              font-size: 22px !important;
+            }
+            h2 {
+              font-size: 16px !important;
+            }
+            small {
+              font-size: 12px !important;
+            }
+          }
+    
+    
+          @media (min-width: 500px) {
+            .user-content pre,
+            .user-content code {
+              font-size: 14px !important;
+              line-height: 24px !important;
+            }
+            .user-content ul,
+            .user-content ol,
+            .user-content pre {
+              margin-top: 12px !important;
+              margin-bottom: 12px !important;
+            }
+            .user-content hr {
+              margin: 12px 0 !important;
+            }
+            .user-content h1 {
+              font-size: 22px !important;
+            }
+            .user-content h2 {
+              font-size: 16px !important;
+            }
+            .user-content h3 {
+              font-size: 14px !important;
+            }
+          }
+        </style>
+      </head>
+  
+      <body class="body" style="font-family: -apple-system, BlinkMacSystemFont, Roboto, Ubuntu, Helvetica, sans-serif; line-height: initial; max-width: 580px;">
+        <header class="mt2 mb2" style="margin-bottom: 20px; margin-top: 20px;">
+        </header>
+    
+        <h1 style="box-sizing: border-box; font-size: 1.25rem; margin: 0; margin-bottom: 0.5em; padding: 0; color: #333;">Terima Kasih telah Mendaftar di DOCTRINA</h1>
+        <p style="color: #999; box-sizing: border-box; margin: 0; margin-bottom: 0.5em; padding: 0; margin-bottom: 24px;">Berikut Ini Username dan Password yang dapat digunakan untuk login di website DOCTRINA</p>
+        
+        <div style="padding: 12px 14px; border: 1px solid #dadada; margin-bottom: 24px; display: inline-block;">
+          <div style="display: inline-block">
+            <h2 style="color: #333; font-size: 16px; font-weight: 400; margin: 0;">Username</h2>
+            <p style="color: #999; font-size: 14px; font-weight: 400; margin: 0;">'.$username.'</p>
+          </div>
+          
+          <div style="display: inline-block; margin-left: 42px;">
+              <h2 style="color: #333; font-size: 16px; font-weight: 400; margin: 0;">Password</h2>
+              <p style="color: #999; font-size: 14px; font-weight: 400; margin: 0;">'.$password.'</p>
+          </div>
+        </div>
+      </body>
+    </html>';
+    // Also, for getting full html you may use the following internal method:
+    $body = $this->email->full_html($subject, $body);
+
+    $result = $this->email
+        ->from('doctrina.net@gmail.com')
+        // ->reply_to('aryo100@gmail.com')    // Optional, an account where a human being reads.
+        ->to($username)
+        ->subject($subject)
+        ->message($body)
+        ->send();
+    var_dump($result);
+    if($result > 0){
+      echo "<script type='text/javascript'>alert ('Berhasil Terkirim !');
+      </script>";
+    } else{
+      echo "<script type='text/javascript'>alert ('Gagal Mengirim !');
+      </script>";
+    }
+
+    echo '<br />';
+    echo $this->email->print_debugger();
+    
+    $data = array(
       'username' => $username,
       'password' =>  md5($password),
       'id' => $id_akun,
@@ -165,7 +372,8 @@ class Admin extends CI_Controller
     $status = $this->uri->segment(4);
     $data1['status'] = 'unapproved';
     $this->doc->update($id_akun,$data1,$status);
-		redirect('admin/view_dona');
+    $this->doc->hapus($id_akun,'akun');
+    redirect('admin/view_dona');
   }
 
 	public function guru_hapus($id){
@@ -243,6 +451,17 @@ class Admin extends CI_Controller
     $this->sik->simpan_mapel($data);
     redirect('admin/view_mapel');
   }
+
+  public function data_lengkap()
+  {
+    $data['title'] = "Profil Donatur";
+    $data['sql']=$this->doc->detail($this->uri->segment(3),'donatur');
+    $this->load->view('layout/header');
+    $this->load->view('layout/sidebar',$data);
+    $this->load->view('pages/admin_profil_lengkap',$data);
+    $this->load->view('layout/footer');
+  }
+
 
   public function data_lengkap_dona()
   {

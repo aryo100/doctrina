@@ -87,7 +87,7 @@
                         </div>
                         <div class="panel-footer">
                             <div class="input-group" style="width: 100%">
-                                <form action="<?php echo base_url(); ?>index.php/penerima/simpan_chat/<?php echo $this->session->userdata('id').'/'.$this->uri->segment(3).'/'.$this->session->userdata('role');?>" method="post">
+                                <form action="<?php echo base_url(); ?>index.php/<?php echo $this->session->userdata('role');?>/simpan_chat/<?php echo $this->session->userdata('id').'/'.$this->uri->segment(3).'/'.$this->session->userdata('role');?>" method="post">
 									<input name="isi" style="width: calc(100% - 51px)" id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
 										<button name="chat" type="submit" class="btn btn-warning btn-sm" id="btn-chat">
 											Send

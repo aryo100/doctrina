@@ -47,6 +47,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="<?php echo base_url(); ?>assets/pages/css/profile.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url(); ?>assets/css/rating.css" rel="stylesheet" type="text/css"  media="screen" title="Rating CSS"/>
         
+
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
         <link href="<?php echo base_url(); ?>assets/layouts/layout4/css/layout.min.css" rel="stylesheet" type="text/css" />
@@ -65,6 +66,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="<?php echo base_url(); ?>assets/layouts/layout4/css/layout.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url(); ?>assets/layouts/layout4/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<?php echo base_url(); ?>assets/layouts/layout4/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url(); ?>assets/css/summernote.css" rel="stylesheet" type="text/css"  media="screen" title="Rating CSS"/>
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
@@ -77,7 +79,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
                     <a href="index.html">
-                        <img src="<?php echo base_url(); ?>assets/layouts/layout4/img/logo-light.png" alt="logo" class="logo-default" /> </a>
+                        <img src="<?php echo base_url(); ?>assets/images/logo.png" alt="logo" class="logo-default" /> </a>
                     <div class="menu-toggler sidebar-toggler">
                         <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
                     </div>
@@ -110,28 +112,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <i class="icon-user"></i> My Profile </a>
                                     </li>
                                     <li>
-                                        <a href="app_calendar.html">
-                                            <i class="icon-calendar"></i> My Calendar </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_inbox.html">
-                                            <i class="icon-envelope-open"></i> My Inbox
-                                            <span class="badge badge-danger"> 3 </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_todo_2.html">
-                                            <i class="icon-rocket"></i> My Tasks
-                                            <span class="badge badge-success"> 7 </span>
-                                        </a>
-                                    </li>
-                                    <li class="divider"> </li>
-                                    <li>
-                                        <a href="page_user_lock_1.html">
-                                            <i class="icon-lock"></i> Lock Screen </a>
-                                    </li>
-                                    <li>
-                                        <a href="page_user_login_1.html">
+                                        <a href="<?php echo base_url(); ?>/index.php/login/keluar">
                                             <i class="icon-key"></i> Log Out </a>
                                     </li>
                                 </ul>

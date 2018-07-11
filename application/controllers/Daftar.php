@@ -17,6 +17,11 @@ class Daftar extends CI_Controller {
 	{
 		$this->load->view('pendaftaran_penerima');
   }
+  
+  public function view_dona()
+	{
+		$this->load->view('pendaftaran_donatur');
+  }
 
 	public function dona_simpan()
 	{
@@ -90,12 +95,81 @@ class Daftar extends CI_Controller {
         'no_ktp' => $nik,
         'no_telp' => $no_telp,
         'alamat' => $alamat,
+        'status' => 'pending',
         'deskripsi' => $deskripsi
       );
 	
     $this->doc->simpan($data,'donatur');
       
-    redirect('Daftar');
+    echo '
+			<html>
+				<style>
+				::selection { background-color: #E13300; color: white; }
+				::-moz-selection { background-color: #E13300; color: white; }
+
+				body {
+					background-color: #fff;
+					margin: 40px;
+					font: 13px/20px normal Helvetica, Arial, sans-serif;
+					color: #4F5155;
+				}
+
+				a {
+					color: #003399;
+					background-color: transparent;
+					font-weight: normal;
+				}
+
+				h1 {
+					color: #444;
+					background-color: transparent;
+					border-bottom: 1px solid #D0D0D0;
+					font-size: 19px;
+					font-weight: normal;
+					margin: 0 0 14px 0;
+					padding: 14px 15px 10px 15px;
+				}
+
+				code {
+					font-family: Consolas, Monaco, Courier New, Courier, monospace;
+					font-size: 12px;
+					background-color: #f9f9f9;
+					border: 1px solid #D0D0D0;
+					color: #002166;
+					display: block;
+					margin: 14px 0 14px 0;
+					padding: 12px 10px 12px 10px;
+				}
+
+				#container {
+					margin: 10px;
+					border: 1px solid #D0D0D0;
+					box-shadow: 0 0 8px #D0D0D0;
+				}
+
+				p {
+					margin: 12px 15px 12px 15px;
+				}
+				</style>
+				<body>
+					<div>
+						<h1>
+							Terima Kasih telah Mendaftar
+						</h1>
+						<p>
+							Data telah berhasil Terkirim, data akan kami segera diverifikasi, <br>
+							username serta password akan dikirim lewat email yang sudah diberikan.
+							<br>
+							<br>
+							Terima kasih.
+							<br>
+							<a href="..">Back</a>
+						</p>
+					</div>
+
+				</body>
+			</html>
+			';
   }
 
   public function pene_simpan()
@@ -154,12 +228,81 @@ class Daftar extends CI_Controller {
         'nip' => $nik,
         'no_telp' => $no_telp,
         'alamat' => $alamat,
+        'status' => 'pending',
         'deskripsi' => $deskripsi
       );
 	
     $this->doc->simpan($data,'penerima');
       
-    redirect('Daftar');
+    echo '
+			<html>
+				<style>
+				::selection { background-color: #E13300; color: white; }
+				::-moz-selection { background-color: #E13300; color: white; }
+
+				body {
+					background-color: #fff;
+					margin: 40px;
+					font: 13px/20px normal Helvetica, Arial, sans-serif;
+					color: #4F5155;
+				}
+
+				a {
+					color: #003399;
+					background-color: transparent;
+					font-weight: normal;
+				}
+
+				h1 {
+					color: #444;
+					background-color: transparent;
+					border-bottom: 1px solid #D0D0D0;
+					font-size: 19px;
+					font-weight: normal;
+					margin: 0 0 14px 0;
+					padding: 14px 15px 10px 15px;
+				}
+
+				code {
+					font-family: Consolas, Monaco, Courier New, Courier, monospace;
+					font-size: 12px;
+					background-color: #f9f9f9;
+					border: 1px solid #D0D0D0;
+					color: #002166;
+					display: block;
+					margin: 14px 0 14px 0;
+					padding: 12px 10px 12px 10px;
+				}
+
+				#container {
+					margin: 10px;
+					border: 1px solid #D0D0D0;
+					box-shadow: 0 0 8px #D0D0D0;
+				}
+
+				p {
+					margin: 12px 15px 12px 15px;
+				}
+				</style>
+				<body>
+					<div>
+						<h1>
+							Terima Kasih telah Mendaftar
+						</h1>
+						<p>
+              Data telah berhasil Terkirim, data akan kami segera diverifikasi, <br>
+              username serta password akan dikirim lewat email yang sudah diberikan.
+							<br>
+							<br>
+							Terima kasih.
+							<br>
+							<a href="..">Back</a>
+						</p>
+					</div>
+
+				</body>
+			</html>
+			';
   }
 
 }

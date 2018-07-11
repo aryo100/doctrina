@@ -158,48 +158,54 @@ class Donatur extends CI_Controller
 		redirect('admin/view_dona');
   }
 
-  public function unapproved()
+  public function unapproved_b()
 	{
-    $id_akun = $this->uri->segment(3);
-    $status = $this->uri->segment(4);
-    $data1['status'] = 'unapproved';
-    $this->doc->update($id_akun,$data1,$status);
-		redirect('admin/view_dona');
+    $id = $this->uri->segment(3);
+    $status = 'beasiswa';
+    $data1['status'] = 'Tidak_Lulus';
+    $this->doc->update($id,$data1,$status);
+		redirect('donatur/list_pene');
   }
 
-	public function guru_hapus($id){
-		$this->sik->hapus_guru($id);
-		redirect('admin/view_guru');
-	}
+	public function approved_b()
+	{
+    $id = $this->uri->segment(3);
+    $status = 'beasiswa';
+    $data1['status'] = 'Lulus';
+    $this->doc->update($id,$data1,$status);
+		redirect('donatur/list_pene');
+  }
 
   public function siswa_hapus($id){
 		$this->sik->hapus_siswa($id);
 		redirect('admin/view_siswa');
 	}
 
-	public function guru_edit($id){
-    $data['title'] = "Edit data Guru";
-		$data['op'] = 'edit';
-		$data['sql'] = $this->sik->edit_guru($id);
-    $data['kelas'] = $this->sik->get_kelas();
-    $data['mata_pelajaran'] = $this->sik->get_mata_pelajaran();
+	
+  public function view_chat(){
+    $data['sql1'] = $this->doc->get('penerima',$this->uri->segment(3));
+    $data['sql'] = $this->doc->get_chat($this->uri->segment(3),$this->session->userdata('id'));
     $this->load->view('layout/header');
     $this->load->view('layout/sidebar',$data);
-    $this->load->view('pages/admin_add_data_guru',$data);
+    $this->load->view('pages/admin_view_chat',$data);
     $this->load->view('layout/footer');
-	}
-
-  public function siswa_edit($id){
-    $data['title'] = "Edit data Siswa";
-		$data['op'] = 'edit';
-		$data['sql'] = $this->sik->edit_siswa($id);
-    $data['kelas'] = $this->sik->get_kelas();
-    $data['ortu'] = $this->sik->get_ortu();
-    $this->load->view('layout/header');
-    $this->load->view('layout/sidebar',$data);
-    $this->load->view('pages/admin_add_data_siswa',$data);
-    $this->load->view('layout/footer');
-	}
+  }
+  
+  public function simpan_chat(){
+    $id_penerima = $this->uri->segment(4);
+    $status = $this->uri->segment(5);
+    $id_donatur = $this->uri->segment(3);
+    $isi = $this->input->post('isi');
+    $data = array(
+      'id_penerima' => $id_penerima,
+      'id_donatur' => $id_donatur,
+      'isi' => $isi,
+      'waktu' => date('Y-m-d'),
+      'status' => $status
+			);
+    $this->doc->chat_simpan($data);
+    redirect('donatur/view_chat/'.$id_penerima);
+  }
 
   public function view_kelas(){
     $data['title'] = "kelas";
@@ -236,11 +242,22 @@ class Donatur extends CI_Controller
 		redirect('admin/view_mapel');
 	}
 
-  public function simpan_mapel(){
-    $mapel = $this->input->post('mapel');
-    $data['nama_mapel'] = $mapel;
-    $this->sik->simpan_mapel($data);
-    redirect('admin/view_mapel');
+  public function des_simpan(){
+    $id = $this->input->post('id');
+    $deskripsi = $this->input->post('deskripsi');
+    $data['deskripsi'] = $deskripsi;
+    $data['id'] = $id;
+    $this->doc->update($id,$data,'donatur');
+    redirect('donatur/data_lengkap_dona/'.$id.'/donatur');
+  }
+
+  public function sya_simpan(){
+    $id = $this->input->post('id');
+    $deskripsi = $this->input->post('syarat');
+    $data['syarat'] = $deskripsi;
+    $data['id'] = $id;
+    $this->doc->update($id,$data,'donatur');
+    redirect('donatur/data_lengkap_dona/'.$id.'/donatur');
   }
 
   public function data_lengkap_dona()
@@ -253,13 +270,23 @@ class Donatur extends CI_Controller
     $this->load->view('layout/footer');
   }
 
-  public function list_pene()
+  public function data_lengkap()
   {
-    $data['title'] = "Penerima";
-    $data['sql']=$this->doc->get('penerima','');
+    $data['title'] = "Profil Penerima";
+    $data['sql']=$this->doc->detail($this->uri->segment(3),'penerima');
     $this->load->view('layout/header');
     $this->load->view('layout/sidebar',$data);
-    $this->load->view('pages/admin_pene_list',$data);
+    $this->load->view('pages/admin_profil_lengkap',$data);
+    $this->load->view('layout/footer');
+  }
+
+  public function list_pene()
+  {
+    $data['title'] = "Waiting List Penerima";
+    $data['sql1']=$this->doc->get_beasiswa($this->session->userdata('id'),'donatur','p');
+    $this->load->view('layout/header');
+    $this->load->view('layout/sidebar',$data);
+    $this->load->view('pages/admin_view_data_beasiswa',$data);
     $this->load->view('layout/footer');
   }
 

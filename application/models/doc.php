@@ -22,14 +22,14 @@ class doc extends CI_Model{
 		$this->db->insert($tabel,$data);
 	}
 
-	function hapus_guru($id){
-		$this->db->where("id_guru",$id);
-		$this->db->delete('guru');
+	function hapus($id,$table){
+		$this->db->where("id",$id);
+		$this->db->delete($table);
 	}
 
-  function hapus_siswa($id){
-		$this->db->where("id_siswa",$id);
-		$this->db->delete('siswa');
+  function get_beasiswa($id_penerima,$id,$from){
+		$sql=$this->db->query("SELECT b.id_penerima as id_penerima , b.id_donatur as id_donatur,$from.id as id,b.id as id_b , $from.nama as nama,$from.no_telp as no_telp,$from.gender as gender, $from.tanggal_lahir as tanggal_lahir, b.status as 'status' FROM ((beasiswa b INNER JOIN penerima p ON b.id_penerima = p.id) INNER JOIN donatur d ON d.id = b.id_donatur) where b.id_$id = $id_penerima");
+    return $sql->result();
 	}
 
 	function edit_guru($id){

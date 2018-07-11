@@ -39,9 +39,12 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="btn-group">
+								<a  href="<?php echo base_url();?>index.php/daftar/view_dona">
 									<button id="sample_editable_1_new" class="btn sbold green"> Add New
 										<i class="fa fa-plus"></i>
+
 									</button>
+									</a>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -123,20 +126,20 @@
 										</button>
 										<ul class="dropdown-menu pull-left" role="menu">
 											<li>
-												<a href="<?php echo base_url();?>index.php/admin/data_lengkap_dona/<?php echo $obj1->id;?>">
+												<a href="<?php echo base_url();?>index.php/<?php echo $this->session->userdata('role');?>/data_lengkap/<?php echo $obj1->id.'/donatur';?>">
 													<i class="icon-user"></i> See More </a>
 											</li>
 											<li class="divider"> </li>
 											
 											<?php if($obj1->status !='approved'){?>
 												<li>
-													<a href="<?php echo base_url();?>index.php/admin/akun_simpan/<?php echo $obj1->id.'/donatur';?>">
+													<a href="<?php echo base_url();?>index.php/<?php echo $this->session->userdata('role');?>/akun_simpan/<?php echo $obj1->id.'/donatur';?>">
 														<i class="icon-check"></i> Approved </a>
 												</li>
 											<?php } ?>
 											<?php if($obj1->status !='unapproved'){ ?>
 											<li>
-												<a href="<?php echo base_url();?>index.php/admin/unapproved/<?php echo $obj1->id.'/donatur';?>">
+												<a href="<?php echo base_url();?>index.php/<?php echo $this->session->userdata('role');?>/unapproved/<?php echo $obj1->id.'/donatur';?>">
 													<i class="icon-close"></i> unapproved </a>
 											</li>
 											<?php } ?>

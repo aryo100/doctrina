@@ -39,9 +39,12 @@
 						<div class="row">
 							<div class="col-xs-6">
 								<div class="btn-group">
+								<a  href="<?php echo base_url();?>index.php/daftar/view_pene">
 									<button id="sample_editable_1_new" class="btn sbold green"> Add New
 										<i class="fa fa-plus"></i>
+
 									</button>
+									</a>
 								</div>
 							</div>
 							<div class="col-xs-6">
@@ -123,7 +126,7 @@
 										</button>
 										<ul class="dropdown-menu pull-left" role="menu">
 											<li>
-												<a href="<?php echo base_url();?>index.php/admin/data_lengkap_pene/<?php echo $obj1->id;?>">
+												<a href="<?php echo base_url();?>index.php/admin/data_lengkap_pene/<?php echo $obj1->id.'/penerima';?>">
 													<i class="icon-user"></i> See More </a>
 											</li>
 											<li class="divider"> </li>
